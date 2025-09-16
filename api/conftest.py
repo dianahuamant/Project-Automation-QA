@@ -22,6 +22,11 @@ def api_client(api_base_url):
     """
     return APIClient(api_base_url)
 
+@pytest.fixture(scope="session")
+def faker():
+    """Fixture que retorna una instancia de Faker para usar en las pruebas."""
+    return Faker()
+
 @pytest.fixture
 def signup_payload():
     """
