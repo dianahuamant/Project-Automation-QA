@@ -12,10 +12,11 @@ def pytest_addoption(parser):
 
 @pytest.fixture
 def driver(request):
-    subprocess.run(["pkill", "-f", "chromedriver"])
+    subprocess.run(["pkill", "-9", "-f", "chromedriver"], check=False)
+    subprocess.run(["pkill", "-9", "-f", "chrome"], check=False)
+
     headless = request.config.getoption("--headless")
     driver = create_driver(headless=headless)
     yield driver
-    sleep(3)
     driver.quit()
 
