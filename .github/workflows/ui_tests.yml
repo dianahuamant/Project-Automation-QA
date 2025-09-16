@@ -15,6 +15,11 @@ jobs:
         with:
           python-version: '3.13'
 
+      - name: Install Google Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -23,7 +28,8 @@ jobs:
 
       - name: Run UI tests
         run: |
-          pytest --headless --html=ui_report.html --self-contained-html ./UI/tests
+          pytest -vv --headless --maxfail=1 --disable-warnings \
+            --html=ui_report.html --self-contained-html ./UI/tests
         env:
           UI_BASE_URL: ${{ secrets.UI_BASE_URL }}
           UI_SIGNUP_URL: ${{ secrets.UI_SIGNUP_URL }}
