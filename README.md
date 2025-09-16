@@ -61,6 +61,8 @@ La validación de la interfaz de usuario se realizó mediante **Page Object Mode
 | **Carrito**             | Refleja con precisión los productos agregados; se puede cambiar cantidad o eliminar; checkout redirige a página de pago. |
 | **Checkout**            | Campos obligatorios validados; sistema bloquea avance si faltan datos o email inválido. |
 
----
+# Ejecución en Github Actions
 
-> Hola
+Para ejecutar los tests de API y UI, se debe dirigir a la sección de Actions y correr el workflow según preferencia.
+Tanto en API como en UI es posible encontrar bugs, por lo que saldrá que el workflow en general no ha pasado, pero para ver mayor detalle,
+es posible descargar el reporte de cada workflow ejecutado.
