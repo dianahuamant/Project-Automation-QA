@@ -22,18 +22,21 @@ jobs:
 
       - name: Run API tests
         run: |
-          pytest --cache-clear --html=api_report.html --self-contained-html ./api/tests
+          # Crear nombre de reporte con fecha y hora
+          REPORT_NAME="api_report_$(date +'%Y-%m-%d_%H-%M-%S').html"
+          echo "Reporte generado: $REPORT_NAME"
+          pytest --cache-clear --html=$REPORT_NAME --self-contained-html ./api/tests
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
           ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
           ADMIN_ROLE: ${{ secrets.ADMIN_ROLE }}
           ADMIN_FULL_NAME: ${{ secrets.ADMIN_FULL_NAME }}
-      
+
       - name: Upload API report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: api-report
-          path: api_report.html
+          path: api_report_*.html
           retention-days: 7
