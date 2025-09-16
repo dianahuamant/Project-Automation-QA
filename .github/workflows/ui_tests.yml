@@ -28,8 +28,7 @@ jobs:
 
       - name: Run UI tests
         run: |
-          pytest -vv --headless --maxfail=1 --disable-warnings \
-            --html=ui_report.html --self-contained-html ./UI/tests
+          pytest --headless --html=ui_report.html --self-contained-html ./UI/tests
         env:
           UI_BASE_URL: ${{ secrets.UI_BASE_URL }}
           UI_SIGNUP_URL: ${{ secrets.UI_SIGNUP_URL }}
