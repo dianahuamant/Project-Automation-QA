@@ -1,22 +1,25 @@
-from time import sleep
-import pytest
-from ..utils.driver_factory import create_driver
-import subprocess
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 
-def pytest_addoption(parser):
-    parser.addoption(
-        "--headless",
-        action="store_true",
-        help="Ejecutar pruebas en modo headless (sin interfaz de usuario)"
+
+def create_driver(headless: bool = False):
+    options = webdriver.ChromeOptions()
+
+    if headless:
+        options.add_argument("--headless=new")
+
+    options.add_argument("--window-size=1920,1080")
+    options.add_argument("--incognito")
+
+    # Banderas necesarias para runners en Linux
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+
+    driver = webdriver.Chrome(
+        service=ChromeService(ChromeDriverManager().install()),
+        options=options,
     )
 
-@pytest.fixture
-def driver(request):
-    subprocess.run(["pkill", "-9", "-f", "chromedriver"], check=False)
-    subprocess.run(["pkill", "-9", "-f", "chrome"], check=False)
-
-    headless = request.config.getoption("--headless")
-    driver = create_driver(headless=headless)
-    yield driver
-    driver.quit()
-
+    driver.implicitly_wait(5)
+    return driver
