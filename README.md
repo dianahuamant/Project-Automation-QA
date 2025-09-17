@@ -70,7 +70,7 @@ El objetivo principal del plan de pruebas ha sido **validar que la API y la Web-
   - Se aplicaron técnicas de validación estricta de esquemas, valores límite y pruebas de permisos.  
   - Se cubrieron tanto **Happy Paths** como **Unhappy Paths**.  
 
-- **Web-UI:** ✅ Validar **todas las páginas de ([Shophub Ecommerce](https://shophub-commerce.vercel.app/)*, cada una con sus **propias validaciones funcionales**.  
+- **Web-UI:** ✅ Validar **todas las páginas de [Shophub Ecommerce](https://shophub-commerce.vercel.app/), cada una con sus **propias validaciones funcionales**.  
   - Se probó el flujo crítico de compra (registro, carrito, checkout).  
   - Además, se incluyeron casos **parametrizados** como la obligatoriedad de campos en checkout y validaciones de productos.  
   - Se aplicó tanto **Happy Path** como **Unhappy Path**.  
