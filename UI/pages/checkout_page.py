@@ -13,7 +13,9 @@ from ..data import (
     CHECKOUT_COMPLETE_EXPECTED_LABELS,
 )
 from .base_page import BasePage
-from selenium.common.exceptions import NoAlertPresentException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException, NoAlertPresentException
 
 
 class CheckoutPage(BasePage):
@@ -61,12 +63,16 @@ class CheckoutPage(BasePage):
         self.wait_for_overlay_to_disappear()
         self.click(CHECKOUT_COMPLETE_BUTTON_PLACE_ORDER)
 
-    def handle_alert_and_get_text(self) -> str | None:
-        """Si hay alerta, devuelve el texto y la acepta; si no, None."""
+    def handle_alert_and_get_text(self, timeout: int = 10) -> str | None:
+        """Espera a que una alerta esté presente, obtiene su texto y la acepta.
+           Devuelve el texto de la alerta si tiene éxito, de lo contrario devuelve None.
+        """
         try:
+            WebDriverWait(self.driver, timeout).until(EC.alert_is_present())
             alert = self.driver.switch_to.alert
             alert_text = alert.text
             alert.accept()
+
             return alert_text
-        except NoAlertPresentException:
+        except (TimeoutException, NoAlertPresentException):
             return None
