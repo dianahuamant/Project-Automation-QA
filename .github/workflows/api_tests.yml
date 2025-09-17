@@ -22,9 +22,13 @@ jobs:
 
       - name: Run API tests
         run: |
-          # Crear nombre de reporte con fecha y hora
-          REPORT_NAME="api_report_$(date +'%Y-%m-%d_%H-%M-%S').html"
+          # Crear timestamp y nombre de reporte
+          TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
+          echo "TIMESTAMP=$TIMESTAMP" >> $GITHUB_ENV
+          REPORT_NAME="api_report_${TIMESTAMP}.html"
+          echo "REPORT_NAME=$REPORT_NAME" >> $GITHUB_ENV
           echo "Reporte generado: $REPORT_NAME"
+
           pytest --cache-clear --html=$REPORT_NAME --self-contained-html ./api/tests
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
@@ -37,6 +41,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: api-report
-          path: api_report_*.html
+          name: api-report-${{ env.TIMESTAMP }}
+          path: ${{ env.REPORT_NAME }}
           retention-days: 7
