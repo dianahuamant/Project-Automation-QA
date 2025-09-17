@@ -134,7 +134,7 @@ En la Web-UI, en algunos escenarios se optó por **warnings** en lugar de fallar
 
 # Ejecución en Github Actions
 
-## Precondición: Estar logueado en Github.
+## Precondición: Estar logueado en Github y ser collaborator.
 
 1. Para ejecutar los tests de API y UI, se debe dirigir a la sección de Actions: https://github.com/dianahuamant/Project-Automation-QA/actions
 En el panel izquierdo elegir:
