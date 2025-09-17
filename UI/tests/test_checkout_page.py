@@ -125,6 +125,7 @@ def test_checkout_invalid_email_format(driver):
 
     checkout_page.place_order()
 
+    checkout_page.wait_for_overlay_to_disappear()
     expected_url = os.getenv("UI_CHECKOUT_COMPLETE_URL")
     assert driver.current_url != expected_url, (
         f"❌ Checkout permitió avanzar con email inválido: {invalid_email}"
