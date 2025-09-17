@@ -33,7 +33,7 @@ class BasePage:
         """Devuelve una lista de elementos que coinciden con el locator."""
         return self.driver.find_elements(*locator)
 
-    def wait_for_overlay_to_disappear(self, timeout: int = 10):
+    def wait_for_overlay_to_disappear(self, timeout: int = 20):
         """Espera a que cualquier overlay desaparezca para poder interactuar con elementos."""
         WebDriverWait(self.driver, timeout).until(
             EC.invisibility_of_element_located(OVERLAY)
