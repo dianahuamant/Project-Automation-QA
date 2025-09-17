@@ -28,7 +28,14 @@ jobs:
 
       - name: Run UI tests
         run: |
-          pytest --headless --html=ui_report.html --self-contained-html ./UI/tests
+          # Crear timestamp y nombre de reporte
+          TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
+          echo "TIMESTAMP=$TIMESTAMP" >> $GITHUB_ENV
+          REPORT_NAME="ui_report_${TIMESTAMP}.html"
+          echo "REPORT_NAME=$REPORT_NAME" >> $GITHUB_ENV
+          echo "Reporte generado: $REPORT_NAME"
+
+          pytest --headless --html=$REPORT_NAME --self-contained-html ./UI/tests
         env:
           UI_BASE_URL: ${{ secrets.UI_BASE_URL }}
           UI_SIGNUP_URL: ${{ secrets.UI_SIGNUP_URL }}
@@ -50,6 +57,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ui-report
-          path: ui_report.html
+          name: ui-report-${{ env.TIMESTAMP }}
+          path: ${{ env.REPORT_NAME }}
           retention-days: 7
