@@ -61,8 +61,88 @@ La validación de la interfaz de usuario se realizó mediante **Page Object Mode
 | **Carrito**             | Refleja con precisión los productos agregados; se puede cambiar cantidad o eliminar; checkout redirige a página de pago. |
 | **Checkout**            | Campos obligatorios validados; sistema bloquea avance si faltan datos o email inválido. |
 
+# 📋 Test Plan
+
+## 🎯 Objetivo
+El objetivo principal del plan de pruebas ha sido **validar que la API y la Web-UI funcionen correctamente**, asegurando la calidad tanto de los flujos críticos como de las validaciones en cada página y endpoint.
+
+- **API:** ✅ Validar el **100% de los endpoints** de la URL [Airline API](https://cf-automation-airline-api.onrender.com/).  
+  - Se aplicaron técnicas de validación estricta de esquemas, valores límite y pruebas de permisos.  
+  - Se cubrieron tanto **Happy Paths** como **Unhappy Paths**.  
+
+- **Web-UI:** ✅ Validar **todas las páginas de la aplicación**, cada una con sus **propias validaciones funcionales**.  
+  - Se probó el flujo crítico de compra (registro, carrito, checkout).  
+  - Además, se incluyeron casos **parametrizados** como la obligatoriedad de campos en checkout y validaciones de productos.  
+  - Se aplicó tanto **Happy Path** como **Unhappy Path**.  
+  - La validación se ejecutó únicamente en **Google Chrome**.  
+
+En ambos componentes, el objetivo también fue **detectar y documentar bugs**, no solo validar que los flujos pasen correctamente.  
+En la Web-UI, en algunos escenarios se optó por **warnings** en lugar de fallar la ejecución completa, permitiendo capturar múltiples hallazgos en una sola corrida.
+
+---
+
+## 📌 Alcance
+- **Incluido:**  
+  - API: Validación funcional de todos los endpoints y sus reglas de negocio, con énfasis en **permisos** (ej. admin vs passenger).  
+  - Web-UI: Validación de **todas las páginas**, incluyendo pruebas de navegación, carrito, checkout, productos y campos obligatorios.  
+  - Todos los datos de prueba fueron **generados de manera aleatoria**, sin uso de data sensible ni valores fijos.  
+
+- **Excluido:**  
+  - No se evaluó **performance** ni **carga**.  
+  - No se realizaron pruebas de **seguridad avanzada** (ej. pruebas de penetración).  
+
+---
+
+## ⚙️ Estrategia de Pruebas
+- **Técnicas aplicadas:**  
+  - ✅ Pruebas funcionales.  
+  - ✅ Validación de esquemas y datos.  
+  - ✅ Valores límite.  
+  - ✅ Happy Path y Unhappy Path en API y Web-UI.  
+- **Frameworks / Lenguaje:**  
+  - Toda la automatización se implementó en **Python**.  
+  - API: Suite de pruebas automatizadas estructurada por módulos.  
+  - Web-UI: Enfoque de **Page Object Model (POM)** para mejorar mantenibilidad.  
+- **Gestión de defectos:**  
+  - Bugs detectados fueron registrados como fallos en los reportes.  
+  - En UI, algunos defectos fueron manejados con **warnings** para no interrumpir la ejecución total.  
+
+---
+
+## 🧩 Niveles de Prueba
+- ✅ **Componente:** Validación de endpoints individuales (API) y páginas aisladas (UI).  
+- ✅ **Integración:** Validación de interacciones entre módulos (ej. booking → payment).  
+- ✅ **End-to-End:** Flujos completos (ej. creación de usuario → reserva → pago en API; registro → compra → checkout en UI).  
+- ✅ **Aceptación:** Validación de que los flujos críticos y páginas completas funcionan de forma consistente en un entorno de pruebas.  
+
+---
+
+## ⚠️ Riesgos y Dependencias
+- **Riesgos:**  
+  - Ninguno relevante, dado que todas las pruebas se ejecutaron en entornos de prueba controlados.  
+- **Dependencias:**  
+  - API y UI deben estar desplegadas en sus respectivas URLs para ejecutar las suites.  
+
+---
+
+## 📊 Ejecución y Reportes
+- Las suites están integradas en **GitHub Actions**, ejecutándose de manera automatizada.  
+- El reporte final marca una ❌ en caso de que **alguna prueba falle**. Esto es esperado, ya que se encontraron bugs en **API y Web-UI**.  
+- El uso de **warnings en UI** permite continuar la ejecución y detectar múltiples defectos en una misma corrida.  
+
+---
+
 # Ejecución en Github Actions
 
-Para ejecutar los tests de API y UI, se debe dirigir a la sección de Actions y correr el workflow según preferencia.
-Tanto en API como en UI es posible encontrar bugs, por lo que saldrá que el workflow en general no ha pasado, pero para ver mayor detalle,
-es posible descargar el reporte de cada workflow ejecutado.
+1. Para ejecutar los tests de API y UI, se debe dirigir a la sección de Actions: https://github.com/dianahuamant/Project-Automation-QA/actions
+En el panel izquierdo elegir:
+- Run API Tests
+- Run UI Tests
+2. Luego de elegir uno, hacer click en él y encontrará un mensaje "This workflow has a workflow_dispatch event trigger".
+3. Tendrá que hacer clic en el botón "Run workflow" que está al lado de ese mensaje.
+4. Hará click en el botón verde "Run workflow".
+5. Aparecerá una sección que carga porque se están corriendo los tests.
+6. Una vez termine de cargar hace click en el run y para ver el detalle del run va a la sección Artifacts que tiene el archivo con fecha y hora:
+<img width="1189" height="210" alt="Captura de pantalla 2025-09-17 a la(s) 2 04 48 p  m" src="https://github.com/user-attachments/assets/d6e2f891-473e-4650-86bd-0ba7481c3b6f" />
+7. Podrá descargar el archivo y ver el detalle de los tests.
+
