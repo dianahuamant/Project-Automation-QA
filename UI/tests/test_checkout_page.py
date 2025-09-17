@@ -66,6 +66,7 @@ def test_checkout_fields(driver, case):
     alert_text = checkout_page.handle_alert_and_get_text()
 
     if case["success"]:
+        checkout_page.wait_for_overlay_to_disappear()
         expected_url = os.getenv("UI_CHECKOUT_COMPLETE_URL")
         assert driver.current_url == expected_url, (
             f"❌ No se redirigió a la URL esperada. "
